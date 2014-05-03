@@ -58,7 +58,6 @@ void client_broadcast_nodes() {
         // Seteo la ip del otro nodo
     	node.sin_addr.s_addr = inet_addr(server.known_clients[i].ip);
         node.sin_port = htons(server.known_clients[i].port);
-        printf("Client port: %d",node.sin_port);
     	//Intentamos conectarnos para ver si esta vivo!
         if (connect(sd_node, (struct sockaddr*)&node, node_size) >= 0) {
             printf("nodo ACTIVO: %s Intercambiando lista de archivos\n", server.known_clients[i].ip);
