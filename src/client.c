@@ -62,7 +62,7 @@ void client_broadcast_nodes() {
         if (connect(sd_node, (struct sockaddr*)&node, node_size) >= 0) {
             printf("nodo ACTIVO: %s Intercambiando lista de archivos\n", server.known_clients[i].ip);
             server.known_clients[i].active = 1;
-            send_message(sd_node, code, "hola;chau;");
+            send_message(sd_node, code, server.files);
             // Desconecto
             close(sd_node);
         } else {
