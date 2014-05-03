@@ -56,23 +56,25 @@ void client_broadcast_nodes() {
     for(i=0; i < 3; i++) {
         sd_node = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
         // Seteo la ip del otro nodo
-    	node.sin_addr.s_addr = inet_addr(server.known_clients[i]);
+    	node.sin_addr.s_addr = inet_addr(server.known_clients[i].ip);
+        node.sin_port = htons(server.known_clients[i].port);
+        printf("Client port: %d",node.sin_port);
     	//Intentamos conectarnos para ver si esta vivo!
         if (connect(sd_node, (struct sockaddr*)&node, node_size) >= 0) {
-            printf("nodo ACTIVO: %s Intercambiando lista de archivos\n", server.known_clients[i]);
-            server.actives_clients[i] = 1;
+            printf("nodo ACTIVO: %s Intercambiando lista de archivos\n", server.known_clients[i].ip);
+            server.known_clients[i].active = 1;
             send_message(sd_node, code, "hola;chau;");
             // Desconecto
             close(sd_node);
         } else {
-            printf("nodo INACTIVO: %s\n", server.known_clients[i]);
+            printf("nodo INACTIVO: %s\n", server.known_clients[i].ip);
         }
     }
 }
 
 
 /*
-* Inicia el bucle principal del proceso HIJO
+* Inicia el bucle principal del p.iproceso HIJO
 * que planifica las descargas
 */
 void downloader_init_stack(void) {
