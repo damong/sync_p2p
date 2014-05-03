@@ -83,7 +83,7 @@ int config_load (char* config_filename) {
         server_known_clients_json = config_lookup(&cfg, "server.known_clients_json");
 
         server.name = strdup(config_setting_get_string(server_name));
-        server.server_port = config_setting_get_string(server_port);   
+        server.server_port = strdup(config_setting_get_string(server_port));   
         return known_clients_load(config_setting_get_string(server_known_clients_json));
         config_destroy(&cfg);
     } else { 
@@ -116,7 +116,7 @@ int known_clients_load(char* known_clients_json) {
     for(i = 0; i < size; i++) {
     	json_t *data, *ip, *port;
     	const char* ip_text;
-    	const int* port_int;
+    	int port_int;
 
     	data = json_array_get(json, i);
     	if(!json_is_object(data)) {
