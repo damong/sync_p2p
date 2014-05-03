@@ -23,6 +23,7 @@ struct server_struct {
 	char* server_port;
 	Known_client known_clients[3];
 	int status;
+	char *sync_dir;
 	char *files;
 };
 

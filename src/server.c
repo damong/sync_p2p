@@ -141,6 +141,8 @@ int server_init_stack(void) {
     }
     server.status = SERVER_STATUS_ACTIVE;
     printf("Server listening on PORT %s\n", server.server_port);
+    printf("Server serving DIR: %s\n", server.sync_dir);
+    printf("Server serving Files: %s\n", server.files);
 
     // Agregamos el server al conjunto 'maestro'
     FD_SET(listener, &master);
