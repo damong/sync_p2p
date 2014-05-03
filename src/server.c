@@ -109,7 +109,7 @@ int server_init_stack(void) {
     hints.ai_socktype = SOCK_STREAM; // un socket de STREAM
     hints.ai_flags = AI_PASSIVE; // Queremos poder hacer bind()
     // Hacemos la consulta
-    if ((rv = getaddrinfo(NULL, PORT, &hints, &ai)) != 0) {
+    if ((rv = getaddrinfo(NULL, server.server_port, &hints, &ai)) != 0) {
 	    fprintf(stderr, "Server: %s\n", gai_strerror(rv));
 	    exit(1);
     }
@@ -140,7 +140,7 @@ int server_init_stack(void) {
         exit(3);
     }
     server.status = SERVER_STATUS_ACTIVE;
-    printf("Server listening on PORT %s\n", PORT);
+    printf("Server listening on PORT %s\n", server.server_port);
 
     // Agregamos el server al conjunto 'maestro'
     FD_SET(listener, &master);

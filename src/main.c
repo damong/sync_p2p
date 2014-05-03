@@ -8,6 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <libconfig.h>
 
 
 #include "include/client.h"
@@ -34,8 +35,7 @@ SessionList* sessions = NULL;
 char* config_filename;
 
 
-static void
-show_help(char** argv) {
+static void show_help(char** argv) {
     printf(
         "IW Sync_P2P Server v 0.1\n\n"
         "  -h            Muestra esta ayuda.\n"
@@ -48,8 +48,7 @@ show_help(char** argv) {
 }
 
 
-static int
-parse_arguments(int argc, char** argv) {
+static int parse_arguments(int argc, char** argv) {
 	int c;
 	while((c = getopt(argc, argv, "hc:")) != -1) {
 		switch(c) {
@@ -70,13 +69,35 @@ parse_arguments(int argc, char** argv) {
 	return 0;
 }
 
+int config_load (char* config_filename) {
+    //Vars para el archivos de configuracion
+    config_t cfg;
+    config_setting_t *server_name = 0;
+    config_setting_t *server_port = 0;
+    config_setting_t *server_known_clients_json = 0;
 
-int
-config_load(char* config_filename) {
+    config_init(&cfg);
+    if (config_read_file(&cfg, config_filename) == CONFIG_TRUE) {
+        server_name = config_lookup(&cfg, "server.name");
+        server_port = config_lookup(&cfg, "server.port");
+        server_known_clients_json = config_lookup(&cfg, "server.known_clients_json");
+
+        server.name = config_setting_get_string(server_name);
+        server.server_port = config_setting_get_string(server_port);   
+        return known_clients_load(config_setting_get_string(server_known_clients_json));
+        config_destroy(&cfg);
+    } else { 
+        return 1;
+        config_destroy(&cfg);
+        }
+}
+
+int known_clients_load(char* known_clients_json) {
+    /*TODO Arreglar l manera que manek¿jamos los errores*/
     json_t *json;
     json_error_t error;
 
-    json = json_load_file(config_filename, 0, &error);
+    json = json_load_file(known_clients_json, 0, &error);
     if(!json) {
     	printf("error: on line %d: %s\n", error.line, error.text);
     	return 1;
@@ -125,8 +146,7 @@ config_load(char* config_filename) {
 }
 
 
-int
-main(int argc, char** argv) {
+int main(int argc, char** argv) {
     pid_t pid;
 
     // Inicializamos el chunk de memoria
@@ -157,7 +177,7 @@ main(int argc, char** argv) {
     	return EXIT_FAILURE;
     }
 
-    server.name = "IW Test Server";
+    //server.name = "IW Test Server";
     server.status = SERVER_STATUS_INACTIVE;
     //TODO:  Hacer esto configurable!
     //server.known_clients[0] = "127.0.0.1";

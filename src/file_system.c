@@ -14,8 +14,7 @@ static int size;
 /**
  *  List files in a directory, exclude hidden files
  **/
-void
-_list_dir(const char *dir_name, int *size) {
+void _list_dir(const char *dir_name, int *size) {
 	DIR *dp;
 	struct dirent *ep;
 	struct stat file_status;
@@ -60,8 +59,7 @@ _list_dir(const char *dir_name, int *size) {
 }
 
 
-void
-serialize_files(char *buffer) {
+void serialize_files(char *buffer) {
 	/*
 	 * hola:21;asdad:123\n
 	 */
@@ -79,9 +77,26 @@ serialize_files(char *buffer) {
 	//printf("BUFFER: %d\n", strlen(buffer));
 }
 
+void serialize_name_files(char *buffer) {
+	/*
+	 * hola:21;asdad:123\n
+	 */
+	int j = 0;
+	int paddin = 0;
+	int size_local = 0;
+	for(j=0; j < size; j++) {
+		size_local = snprintf(buffer + paddin, 1024, "%s;", files_table[j]->filename);
+		paddin += size_local;
+		//printf("pad: %i\n", paddin);
+	}
+	//Set the end of string
+	buffer[paddin] = '\0';
+	//printf("BUFFER: %s\n", buffer);
+	//printf("BUFFER: %d\n", strlen(buffer));
+}
 
-void
-print(int size) {
+
+void print(int size) {
 	int j = 0;
 	for(j=0; j < size; j++) {
 		printf("%s:%u\n", files_table[j]->filename, (unsigned)files_table[j]->bytes);
@@ -92,13 +107,12 @@ void list_dir(const char *dir_name) {
 	_list_dir(dir_name, &size);
 }
 
-/*
-int
-main (void) {
-	char *buffer;
+/*int main (void) {
+	char *buffer, *nombres;
 	buffer = malloc(500);
-	const char* dir_name = "/home/tincho/proyectos/iw/";
-	list_dir(dir_name, &size);
+	nombres = malloc(500);
+	const char* dir_name = "/tmp/";
+	list_dir(dir_name);
 	//printf("Size: %d\n", size);
 	//printf("Listando el directorio: %s\n", dir_name);
 	//print(size);
@@ -106,6 +120,8 @@ main (void) {
 	serialize_files(buffer);
 	printf("BUFFER: %s\n", buffer);
 	printf("SIZE: %d\n", strlen(buffer));
+	printf("Serializando la lista de nombres...\n");
+	serialize_name_files(nombres);
+	printf("Lista de Nombres: %s\n", nombres);
 	return 0;
-}
-*/
+}*/
