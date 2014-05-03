@@ -40,7 +40,8 @@ void downloader_worker_thread(void *worker_data) {
 */
 void client_broadcast_nodes() {
     int sd_node, node_size, i;
-    //uint16_t code;
+    //Este no va, es para probar
+    uint16_t code;
     struct sockaddr_in node;
 
     // Seteamos el puerto y la familia igual para
@@ -49,7 +50,8 @@ void client_broadcast_nodes() {
     node.sin_family = AF_INET;
     node.sin_port = htons(CLIENT_PORT); //main.h
 
-    //code = REQUEST_LIST;
+    //Este no va, es para probar
+    code = REQUEST_LIST;
     printf("Buscando nodos ACTIVOS...\n");
     for(i=0; i < 3; i++) {
         sd_node = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -59,7 +61,7 @@ void client_broadcast_nodes() {
         if (connect(sd_node, (struct sockaddr*)&node, node_size) >= 0) {
             printf("nodo ACTIVO: %s Intercambiando lista de archivos\n", server.known_clients[i]);
             server.actives_clients[i] = 1;
-            //send_message(sd_node, code, "hola;chau;");
+            send_message(sd_node, code, "hola;chau;");
             // Desconecto
             close(sd_node);
         } else {

@@ -4,7 +4,7 @@
 #include <netinet/in.h> //uint16_t
 
 // Extras
-#define PORT "8888"   // Donde queremos escuchar
+#define PORT "4444"   // Donde queremos escuchar
 #define BACKLOG 10 // Cuantas conexiones permitimos en la cola de pendientes
 
 void handle_message(int sd, uint16_t message_code, char * message);
