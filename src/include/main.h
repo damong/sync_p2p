@@ -12,7 +12,7 @@ typedef struct server_struct Server;
 struct server_struct {
 	char *name;
 	int server_fd;
-	int server_port;
+	char* server_port;
 	char* known_clients[3];
 	int actives_clients[3];
 	int status;
