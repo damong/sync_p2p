@@ -10,6 +10,7 @@ struct file_struct {
 void list_dir(const char *dir_name);
 void _list_dir(const char *dir_name, int *size);
 void serialize_files(char *buffer);
+void serialize_name_files(char *buffer);
 void print(int size);
 
 

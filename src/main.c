@@ -191,7 +191,7 @@ int main(int argc, char** argv) {
     //Generar la lista de files a synquear
     server.files = malloc(500);
     list_dir(server.sync_dir);
-    serialize_name_files(server.files);
+    serialize_files(server.files);
 
     pid = fork();
     if (pid == -1) {
