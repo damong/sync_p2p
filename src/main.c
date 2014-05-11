@@ -41,7 +41,7 @@ static void show_help(char** argv) {
         "  -h            Muestra esta ayuda.\n"
         "  -c <archivo>  Especifica el archivo de configuracion (Path absoluto).\n"
         "Uso:\n"
-        "   %s -c file.json\n",
+        "   %s -c file.cfg\n",
         argv[0]
     );
     exit(EXIT_SUCCESS);
@@ -180,7 +180,7 @@ int main(int argc, char** argv) {
     	fprintf(stderr, "[!] Error iniciando los manejadores de signals.\n");
     	return EXIT_FAILURE;
     }
-
+    exit(0);
     //server.name = "IW Test Server";
     server.status = SERVER_STATUS_INACTIVE;
     //TODO:  Hacer esto configurable!
