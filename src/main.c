@@ -212,6 +212,8 @@ int main(int argc, char** argv) {
          downloader_init_stack();
     } else { //PARENT
         printf("[*] Iniciando server(PID=%d)\n", getpid());
+        // Cerramos el fd para leer
+        close(pipe_fds[0]);
         if (server_init_stack() == -1) {
             fprintf(stderr, "[!] Problemas al iniciar el servidor\n");
 	        //TODO: Avisar al hijo que algo salio mal(?)
