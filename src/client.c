@@ -53,7 +53,7 @@ void client_broadcast_nodes() {
     //Este no va, es para probar
     code = REQUEST_LIST;
     printf("Buscando nodos ACTIVOS...\n");
-    for(i=0; i < 1; i++) {
+    for(i=0; i < NELEMS(server.known_clients); i++) {
         sd_node = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
         // Seteo la ip del otro nodo
     	node.sin_addr.s_addr = inet_addr(server.known_clients[i].ip);

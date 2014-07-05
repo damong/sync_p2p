@@ -8,6 +8,8 @@
 #define SERVER_STATUS_ACTIVE 0
 #define SERVER_STATUS_INACTIVE 1
 
+#define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
+
 typedef struct known_client_struct Known_client;
 struct known_client_struct {
 	char* ip;
