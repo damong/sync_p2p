@@ -1,11 +1,11 @@
 IDIR = ./include
 CC=gcc
-CFLAGS=-I$(IDIR) -fPIC
+CFLAGS=-I$(IDIR) # -g -O0
 
 ODIR=obj
 LDIR =-L./lib -L/lib64
-LIBS=-lm -ljson
-LDFLAGS=-shared
+LIBS=`pkg-config --cflags --libs jansson` `pkg-config --cflags --libs libconfig`
+#LDFLAGS=-shared
 
 _DEPS = client.h file.h file_system.h main.h parse_file.h protocol.h server.h session.h sessions.h signals.h tasks.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -17,8 +17,10 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+all: sync_p2p
+
 sync_p2p: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LDIR) $(LIBS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LDIR) $(LIBS)
 
 #.PHONY: clean
 

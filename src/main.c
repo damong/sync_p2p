@@ -96,7 +96,7 @@ int config_load (char* config_filename) {
 }
 
 int known_clients_load(char* known_clients_json) {
-    /*TODO Arreglar l manera que manek¿jamos los errores*/
+    /*TODO Arreglar l manera que manejamos los errores*/
     json_t *json;
     json_error_t error;
 
@@ -152,7 +152,6 @@ int known_clients_load(char* known_clients_json) {
 
 int main(int argc, char** argv) {
     pid_t pid;
-
     // Inicializamos el chunk de memoria
     memset(pipe_buf, 0, PIPE_SIZE);
 
@@ -163,7 +162,7 @@ int main(int argc, char** argv) {
 
     /*TODO: Antes del fork() tenemos que
          config_load() donde cargamos toda la conf y alguna magia...
-         sysgnals_initialize() Manejador de signals
+         signals_initialize() Manejador de signals
          server_parse_arguments(argc, argv) (Tenemos?)
          Iniciar el file_system_reader() (?)
     */
