@@ -21,3 +21,14 @@
 *.i*86
 *.x86_64
 *.hex
+
+#Backups and Swap files
+*~
+*.swp
+
+#Linked Executable
+src/sync_p2p
+
+#Any file posted for synchronization
+src/synced_dir/*
+src/synced_dir/!README
